@@ -138,10 +138,13 @@ public class BasicNetwork implements Network {
                 return new NetworkResponse(statusCode, responseContents, responseHeaders, false,
                         SystemClock.elapsedRealtime() - requestStart);
             } catch (SocketTimeoutException e) {
+                // socket 连接超时
                 attemptRetryOnException("socket", request, new TimeoutError());
             } catch (ConnectTimeoutException e) {
+                // connection 连接超时
                 attemptRetryOnException("connection", request, new TimeoutError());
             } catch (MalformedURLException e) {
+                // URL 不正确
                 throw new RuntimeException("Bad URL " + request.getUrl(), e);
             } catch (IOException e) {
                 int statusCode;
